@@ -1,7 +1,8 @@
 #event-container
   h1 Events
   .spacer-25
-    = will_paginate @events
+    - if @events.length > 0
+      = will_paginate @events
   - @events.each do |event|
 
     .event(data-event-id=event.id)

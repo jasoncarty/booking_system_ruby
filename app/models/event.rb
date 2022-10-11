@@ -21,7 +21,6 @@ class Event < ApplicationRecord
   has_calendar
 
   # model associations
-  belongs_to :calendar, dependent: :destroy
   has_many :event_attendees
 
   has_many :reserves, -> { reserves }, class_name: 'EventAttendee'

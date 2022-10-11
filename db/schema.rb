@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 2015_10_08_173152) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "calendars", force: :cascade do |t|
+  create_table "calendars", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.string "url"
@@ -23,17 +23,17 @@ ActiveRecord::Schema.define(version: 2015_10_08_173152) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "event_attendees", force: :cascade do |t|
+  create_table "event_attendees", id: :serial, force: :cascade do |t|
     t.integer "event_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "reserve", default: true
+    t.boolean "reserve", default: false
     t.index ["event_id"], name: "index_event_attendees_on_event_id"
     t.index ["user_id"], name: "index_event_attendees_on_user_id"
   end
 
-  create_table "events", force: :cascade do |t|
+  create_table "events", id: :serial, force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "url"
@@ -49,14 +49,14 @@ ActiveRecord::Schema.define(version: 2015_10_08_173152) do
     t.index ["starts_at"], name: "index_events_on_starts_at"
   end
 
-  create_table "site_settings", force: :cascade do |t|
+  create_table "site_settings", id: :serial, force: :cascade do |t|
     t.string "site_name"
     t.integer "maximum_event_attendees", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "password_digest"

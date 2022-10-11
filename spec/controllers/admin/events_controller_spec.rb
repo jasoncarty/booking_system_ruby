@@ -5,6 +5,7 @@ describe Admin::EventsController do
   let(:user) { FactoryBot.create(:user) }
   let(:admin) { FactoryBot.create(:admin) }
   let(:event) { FactoryBot.create(:event) }
+  let(:calendar) { FactoryBot.create(:calendar) }
 
   describe "GET #index" do
     it "redirects to login if user not logged in" do
@@ -98,7 +99,8 @@ describe Admin::EventsController do
         event: {
           name: 'Test event',
           description: 'Description of test event',
-          starts_at: Time.now
+          starts_at: Time.now,
+          calendar_id: calendar.id
         }
       }
       response.status.should be(302)
