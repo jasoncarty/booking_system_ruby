@@ -28,7 +28,7 @@ gem "select2-rails"
 group :development do
   gem "letter_opener"
   gem 'annotate'
-  gem 'coveralls', require: false
+  gem 'coveralls_reborn', '~> 0.25.0', require: false
   gem 'figaro'
 end
 
@@ -47,7 +47,7 @@ group :production do
 end
 
 group :test do
-  gem 'simplecov', :require => false
+  gem 'simplecov-lcov', '~> 0.8.0'
   gem 'rails-controller-testing'
 end
 
