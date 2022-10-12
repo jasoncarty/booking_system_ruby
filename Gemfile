@@ -47,6 +47,7 @@ group :production do
 end
 
 group :test do
+  gem 'simplecov', require: false
   gem 'simplecov-lcov', '~> 0.8.0'
   gem 'rails-controller-testing'
 end
