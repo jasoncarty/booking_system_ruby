@@ -20,6 +20,9 @@ class Event < ApplicationRecord
   extend SimpleCalendar
   has_calendar
 
+  # pagination
+  paginates_per 10
+
   # model associations
   has_many :event_attendees
 

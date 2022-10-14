@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.2'
+ruby '3.1.2'
 
 gem 'rails', '6.1.0'
 gem 'json', '2.6.2'
@@ -16,8 +16,11 @@ gem 'jbuilder', '~> 2.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'slim'
 gem "simple_calendar", "~> 1.1.0"
-gem 'will_paginate', '~> 3.0.6'
+gem 'kaminari'
 gem 'puma'
+gem 'net-smtp', require: false
+gem 'net-imap', require: false
+gem 'net-pop', require: false
 
 # Assets
 gem 'bootstrap-sass', '~> 3.3.4'
@@ -35,7 +38,7 @@ end
 group :development, :test do
   gem 'byebug'
   gem 'spring'
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-rails', '~> 4.0.1'
   gem 'factory_bot_rails'
   gem 'database_cleaner'
   gem 'pry-rails'
