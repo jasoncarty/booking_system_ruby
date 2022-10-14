@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2015_10_08_173152) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "reserve", default: true
+    t.boolean "reserve", default: false
     t.index ["event_id"], name: "index_event_attendees_on_event_id"
     t.index ["user_id"], name: "index_event_attendees_on_user_id"
   end

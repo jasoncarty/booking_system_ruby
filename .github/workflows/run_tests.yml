@@ -5,7 +5,7 @@
 # This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
 # For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
 
-name: Ruby
+name: Run tests
 
 on:
   push:
@@ -20,19 +20,72 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby-version: ['2.7.2']
+    container:
+      image: ruby:3.1.2
+
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ""
+          POSTGRES_DB: postgres
+        ports:
+        - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Ruby
-    # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
-    # change this to (see https://github.com/ruby/setup-ruby#versioning):
-    # uses: ruby/setup-ruby@v1
-      uses: ruby/setup-ruby@0a29871fe2b0200a17a4497bae54fe5df0d973aa # v1.115.3
+    - uses: actions/checkout@v1
+
+    - uses: actions/setup-node@v1
       with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Run tests
-      run: bundle exec rake
+        node-version: '16.x'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Gem cache
+      id: cache-bundle
+      uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: bundle-${{ hashFiles('**/Gemfile.lock') }}
+
+    - name: Bundle install
+      env:
+        RAILS_ENV: test
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3 --path vendor/bundle
+
+    - name: Install yarn
+      run: npm install -g yarn
+
+    # NOTE: Yarn cache doesn't seem to be working quite yet
+    - name: Get yarn cache dir
+      id: yarn-cache-dir
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - name: Yarn cache
+      id: cache-yarn
+      uses: actions/cache@v1
+      with:
+        path: ${{ steps.yarn-cache-dir.outputs.dir }}
+        key: yarn-${{ hashFiles('**/yarn.lock') }}
+
+    - name: Yarn install
+      run: yarn install
+
+    - name: Setup DB, Run tests
+      env:
+        PGHOST: postgres
+        PGUSER: postgres
+        PGPORT: ${{ job.services.postgres.ports[5432] }}
+        RAILS_ENV: test
+      run: |
+        bin/rails db:create db:migrate
+        bundle exec rspec
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}

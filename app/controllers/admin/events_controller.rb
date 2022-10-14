@@ -6,14 +6,14 @@ class Admin::EventsController < AdminController
     @events = Event.preload(event_attendees: :user)
               .where('starts_at >= ?', Time.now)
               .order(starts_at: :asc)
-              .paginate(page: params[:page], per_page: 10)
+              .page(params[:page])
   end
 
   def old_events
     @events = Event.preload(event_attendees: :user)
               .where('starts_at < ?', Time.now)
               .order(starts_at: :asc)
-              .paginate(page: params[:page], per_page: 10)
+              .page(params[:page])
   end
 
   def new

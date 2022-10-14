@@ -20,8 +20,10 @@ class Event < ApplicationRecord
   extend SimpleCalendar
   has_calendar
 
+  # pagination
+  paginates_per 10
+
   # model associations
-  belongs_to :calendar, dependent: :destroy
   has_many :event_attendees
 
   has_many :reserves, -> { reserves }, class_name: 'EventAttendee'
