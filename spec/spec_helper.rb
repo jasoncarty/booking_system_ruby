@@ -1,3 +1,4 @@
+=begin
 require 'simplecov'
 
 SimpleCov.start 'rails' do
@@ -14,6 +15,7 @@ SimpleCov.start 'rails' do
 
   add_filter %w[version.rb initializer.rb]
 end
+=end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
