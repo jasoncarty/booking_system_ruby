@@ -21,5 +21,7 @@ To start the app run:
 rails s
 ```
 ## Test
+```bash
 RAILS_ENV=test bundle exec rake db:prepare
 bundle exec rspec
+```
