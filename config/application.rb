@@ -18,5 +18,6 @@ module BookingSystem
     #
     config.time_zone = 'Africa/Johannesburg'
     # config.eager_load_paths << Rails.root.join("extras")
+    config.active_record.legacy_connection_handling = false
   end
 end
