@@ -1,0 +1,18 @@
+databases:
+  - name: golf-booking-system
+    databaseName: booking_system_production
+    user: postgres
+
+services:
+  - type: web
+    name: golf-booking-system
+    env: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: golf-booking-system
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false

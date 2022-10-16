@@ -29,3 +29,6 @@ production:
   pool: 5
   timeout: 5000
   database: booking_system_production
+  url: <%= ENV['DATABASE_URL'] %>
+  username: booking_system_production_user
+  password: <%= ENV['MYSITE_DATABASE_PASSWORD'] %>
