@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '3.1.2'
 
-gem 'rails', '6.1.0'
+gem 'rails', '7.0.4'
 gem 'json', '2.6.2'
 gem 'bootsnap'
 gem 'listen'
