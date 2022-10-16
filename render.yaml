@@ -1,7 +1,7 @@
 databases:
   - name: golf-booking-system
     databaseName: booking_system_production
-    user: postgres
+    user: golf-booking-system
 
 services:
   - type: web
